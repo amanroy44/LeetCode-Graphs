@@ -1,0 +1,21 @@
+class Solution {
+    //create array trust & trustedBy of sise n+1
+    //increment trusts and trustedy by 1 for each trust
+    //check if particular person trustedBy is n-1 & trusts is 0.
+    public int findJudge(int n, int[][] trust) {
+        int[] trusts = new int[n+1];
+        int[] trustedby = new int[n+1];
+        for(int i=0;i<trust.length;i++){
+            int n1 = trust[i][0];
+            int n2 = trust[i][1];
+            trusts[n1]=trusts[n1]+1;
+            trustedby[n2]=trustedby[n2]+1;
+        }
+        for(int i=1;i<trustedby.length;i++){
+            if(trustedby[i]==n-1 && trusts[i]==0){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
