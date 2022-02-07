@@ -1,0 +1,43 @@
+class Solution {
+    //simple dfs
+    //create color matrix and initialize with -1
+    //create a variable cr with 0
+    //iterate through n and check if color[i]==-1 && !isBapirtite(), return false
+    //for isBipartite() firstly color i with cr
+    //iterate through map and check if color[iterated value]==-1 and !isBipartite(1-cr) return false OR color[i]==color[iterated value] (should not be same) return false
+    //return true
+    public boolean possibleBipartition(int n, int[][] dislikes) {
+        Map<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+        for(int i=0;i<n+1;i++){
+            map.put(i,new ArrayList<Integer>());
+        }
+        for(int i=0;i<dislikes.length;i++){
+            int u = dislikes[i][0];
+            int v = dislikes[i][1];
+            map.get(u).add(v);
+            map.get(v).add(u);
+        }
+        int[] color =  new int[n+1];
+        Arrays.fill(color,-1);
+        int cr =0;
+       for(int i=0;i<color.length;i++){
+            if(color[i]==-1 && !isBipartite(n,map,color,cr,i)){
+                return false;
+            }
+       }
+        return true;
+    }
+    
+    public boolean isBipartite(int n, Map<Integer,List<Integer>> map, int[] color, int cr, int i){
+        color[i]=cr;
+        for(int ele: map.get(i)){
+            if(color[ele]==-1 && !isBipartite(n,map,color,1-cr,ele)){
+                return false;
+            }
+            else if(color[i]==color[ele]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
