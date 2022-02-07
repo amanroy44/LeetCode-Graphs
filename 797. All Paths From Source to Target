@@ -1,0 +1,37 @@
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        Map<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> path = new ArrayList<Integer>();
+        int n = graph.length;
+        for(int i=0;i<n;i++){
+            map.put(i,new ArrayList<Integer>());
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<graph[i].length;j++){
+                map.get(i).add(graph[i][j]);
+            }
+        }
+        int src = 0;
+        int dst = graph.length-1;
+        dfs(map,src,dst,path,res);
+        return  res;
+    }
+    public void dfs(Map<Integer,List<Integer>> map, int src, int dst, List<Integer> path, List<List<Integer>> res){
+        path.add(src);
+        if(src==dst){
+            res.add(new ArrayList<Integer>(path));
+            path.remove(path.size()-1);
+            return;
+        }
+       
+        for(int ele: map.get(src)){
+            dfs(map,ele,dst,path,res);
+            
+        }
+        path.remove(path.size()-1);
+       
+        
+    }
+}
