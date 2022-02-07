@@ -1,0 +1,27 @@
+class Solution {
+    //simple dfs
+    //create boolean array visited and index 0
+    //call dfs with index, rooms and visited array
+    //iterate through visisted array, if not visited return false
+    //return true
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] vis = new boolean[rooms.size()];
+        int index = 0;
+        dfs(rooms, index, vis);
+        for(int i=0;i<vis.length;i++){
+            if(!vis[i]){
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    public void dfs(List<List<Integer>> rooms, int index, boolean[] vis){
+        vis[index]=true;
+        for(int ele: rooms.get(index)){
+            if(!vis[ele]){
+                dfs(rooms,ele,vis);
+            }
+        }
+    }
+}
