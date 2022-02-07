@@ -1,0 +1,45 @@
+class Solution {
+    //simple dfs
+    //variant of all path from root node to destination node
+    //base condition: if(start==end), return true amd the rest is dfs
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        Map<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+        for(int i=0;i<n;i++){
+            map.put(i,new ArrayList<Integer>());
+        }
+        for(int i=0;i<edges.length;i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+            map.get(u).add(v);
+            map.get(v).add(u);
+        }
+        
+        boolean[] vis = new boolean[n];
+       
+        if(dfs(start,end,vis,map)){
+            return true;
+        }
+        else{
+            return false;
+        }
+       
+        
+    }
+    public boolean dfs(int start, int end, boolean[] vis, Map<Integer,List<Integer>> map){
+       if(start==end){
+           return true;
+       }
+       vis[start]=true;
+       for(int ele: map.get(start)){
+           if(!vis[ele]){
+               if(dfs(ele,end,vis,map)){
+                   return true;
+               }
+           }
+          
+       }
+       return false;
+       
+    }
+    
+}
