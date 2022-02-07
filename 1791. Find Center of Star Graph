@@ -1,0 +1,24 @@
+class Solution {
+    //take an array and iterate from 0 to edges.length and increment that array
+    //iterate over the array, if any elemnt is equals edges.length store and break
+    public int findCenter(int[][] edges) {
+        int len = edges.length+2;
+        int count=edges.length;
+        int ele=0;
+        int[] center = new int[len];
+        for(int i=0;i<edges.length;i++){
+            int idx1 = edges[i][0];
+            int idx2 = edges[i][1];
+            center[idx1]+=1;
+            center[idx2]+=1;
+            
+        }
+        for(int i=1;i<center.length;i++){
+            if(center[i]==count){
+                ele=i;
+                break;
+            }
+        }
+        return ele;
+    }
+}
