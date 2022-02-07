@@ -1,0 +1,72 @@
+//This is Bellman Ford algorithm
+
+//create Node class
+class Node{
+    private int u;
+    private int v;
+    private int price;
+    
+    Node(int u, int v, int price){
+        this.u=u;
+        this.v=v;
+        this.price=price;
+    }
+    Node(){
+        
+    }
+    int getU(){
+        return u;
+    }
+    int getV(){
+        return v;
+    }
+    int getPrice(){
+        return price;
+    }
+}
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        //store Node in list
+        List<Node> adj = new ArrayList<Node>();
+        for(int[] ele: flights){
+            adj.add(new Node(ele[0],ele[1],ele[2]));
+        }
+        //initialize distance array with maxm value
+        int[] dis = new int[n];
+        for(int i=0;i<n;i++){
+            dis[i]=Integer.MAX_VALUE;
+        }
+        dis[src]=0;
+          
+        for(int i=0;i<=k;i++){
+            //create temo variable
+           int[] temp = new int[n];
+            
+            //initialize temp with distance
+           for(int j=0;j<n;j++){
+               temp[j]=dis[j];
+            }
+            
+            //iterate through list
+           for(Node node : adj){
+                int u1 = node.getU();
+                int v1 = node.getV();
+                int price1 =  node.getPrice();
+                
+                if(dis[u1]+price1 < temp[v1] && dis[u1]+price1>=0){
+                    temp[v1]=dis[u1]+price1;
+                }
+                
+            }
+            //make distance array equal to temp
+            dis=temp;
+          }
+           
+       
+        if(dis[dst]==Integer.MAX_VALUE){
+            return -1;
+        }
+         return dis[dst]; 
+        
+    }
+}
