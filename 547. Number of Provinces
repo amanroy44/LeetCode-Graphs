@@ -1,0 +1,28 @@
+class Solution {
+    //dfs
+    //iterate over row and col of isConnected
+    //if isConnected[row][col] is 1, increment province and call dfs
+    //make isConnected[i][j]=0
+    //iterate k again over row and check isConnected[j][k]==1, call dfs
+    public int findCircleNum(int[][] isConnected) {
+        int province=0;
+        for(int i=0;i<isConnected.length;i++){
+            for(int j=0;j<isConnected[0].length;j++){
+                if(isConnected[i][j]==1){
+                    province++;
+                    dfs(isConnected,i,j);
+                }
+            }
+        }
+        return province;
+    }
+    
+    public void dfs(int[][] isConnected, int i, int j){
+        isConnected[i][j]=0;
+        for(int k=0;k<isConnected.length;k++){
+            if(isConnected[j][k]==1){
+                dfs(isConnected,j,k);
+            }
+        }
+    }
+}
