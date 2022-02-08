@@ -1,0 +1,32 @@
+class Solution {
+    int ans=0;
+    public int minReorder(int n, int[][] connections) {
+        boolean[] vis = new boolean[n];
+        Map<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+        for(int[] c: connections){
+            if(!map.containsKey(c[0])){
+                map.put(c[0],new ArrayList<Integer>());
+            }
+            if(!map.containsKey(c[1])){
+                map.put(c[1], new ArrayList<Integer>());
+            }
+            map.get(c[0]).add(-c[1]);
+            map.get(c[1]).add(c[0]);
+        }
+        int start=0;
+        dfs(start,map,vis);
+        return ans;
+    }
+    
+    public void dfs(int start, Map<Integer,List<Integer>> map, boolean[] vis){
+        vis[start]=true;
+        for(int ele: map.get(start)){
+            if(!vis[Math.abs(ele)]){
+                if(ele<0){
+                    ans++;
+                }
+                dfs(Math.abs(ele),map,vis);
+            }
+        } 
+    }
+}
