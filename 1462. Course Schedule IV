@@ -1,0 +1,42 @@
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        List<Boolean> ans = new ArrayList<Boolean>();
+        Map<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+        for(int i=0;i<numCourses;i++){
+            map.put(i,new ArrayList<Integer>());
+        }
+        for(int[] ele: prerequisites){
+            int u1 = ele[0];
+            int v1 = ele[1];
+            map.get(u1).add(v1);
+        }
+        for(int[] ele: queries){
+            int u = ele[0];
+            int v = ele[1];
+            boolean[] vis = new boolean[numCourses];
+            if(dfs(u,v,vis,map)){
+                ans.add(true);
+            }
+            else{
+                ans.add(false);
+            }
+        }
+        return ans;
+        
+    }
+    public boolean dfs(int u, int v, boolean[] vis, Map<Integer,List<Integer>> map){
+        if(u==v){
+            return true;
+        }
+        vis[u]=true;
+        for(int ele: map.get(u)){
+            if(!vis[ele]){
+                if(dfs(ele,v,vis,map)){
+                    return true;
+                 }
+            }
+        }
+        return false;
+        
+    }
+}
