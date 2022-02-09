@@ -1,0 +1,74 @@
+class Pair{
+    public int first;
+    public int second;
+    
+    Pair(int first, int second){
+        this.first=first;
+        this.second=second;
+    }
+    Pair(){
+        
+    }
+}
+//check and store every position of 2 in Queue.
+//pop out the element until the size of the queue is empty by iterating from 0 to size of queue
+//check the validity by moving to up,dowm,left,right pos and if it is fresh oranges
+//check outside for loop if still size of queue is greater than 0, if yes incement time
+//now again iterate over the grid graph and check if still there are fresh oranges present, if present return -1, else return time
+
+class Solution
+{
+     
+    public int orangesRotting(int[][] grid){
+        int row = grid.length;
+        int col = grid[0].length;
+        Queue<Pair> queue = new LinkedList<Pair>();
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==2){
+                    queue.add(new Pair(i,j));
+                }
+            }
+        }
+        int size = queue.size();
+        int time=0;
+        while(size>0){
+            for(int i=0;i<size;i++){
+                Pair pair = queue.remove();
+                check(pair,queue,grid,row,col);
+                
+            }
+            size = queue.size();
+            if(size>0){
+                time++;
+            }
+        }
+        
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==1){
+                    return -1;
+                }
+            }
+        }
+        return time;
+        
+    }
+    
+    public void check(Pair pair, Queue<Pair> queue, int[][] grid, int row, int col){
+        int X = pair.first;
+        int Y = pair.second;
+        int[] x = {-1,1,0,0};
+        int[] y = {0,0,-1,1};
+        for(int i=0;i<4;i++){
+            if(X+x[i]<0 || X+x[i]>=row || Y+y[i]<0 || Y+y[i]>=col || grid[X+x[i]][Y+y[i]]!=1){
+                continue;
+            }
+            else{
+                queue.add(new Pair(X+x[i], Y+y[i]));
+                grid[X+x[i]][Y+y[i]] = 2;
+            }
+        }
+    }
+        
+}
