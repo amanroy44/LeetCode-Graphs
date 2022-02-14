@@ -1,0 +1,33 @@
+
+class Solution {
+    //Eulerian path dfs
+    public List<String> findItinerary(List<List<String>> tickets) {
+        LinkedList<String> ans = new LinkedList();
+        Map<String, PriorityQueue<String>> map = new HashMap<>();
+        //Set<String> set = new HashSet<>();
+        for(List<String> ticket: tickets){
+            String from = ticket.get(0);
+            String to = ticket.get(1);
+            if(!map.containsKey(from)){
+                map.put(from, new PriorityQueue<String>());
+                map.get(from).add(to);
+            }
+            else{
+                map.get(from).add(to);
+            }
+        }
+        
+        String start = "JFK";
+        dfs(start,map,ans);
+        return ans;
+        
+    }
+    public void dfs(String start, Map<String, PriorityQueue<String>> map, LinkedList<String> ans){
+        
+        PriorityQueue<String> pq = map.get(start);
+        while(pq!=null && !pq.isEmpty()){
+            dfs(pq.poll(),map,ans);
+        }
+        ans.addFirst(start);
+    }
+}
