@@ -1,0 +1,34 @@
+class Solution{
+    public int total_cost(int[][] cost){
+        int n = cost.length;
+        if(n==1){
+            return 0;
+        }
+        if(n==2){
+            return cost[0][1]+cost[1][0];
+        }
+        boolean[] vis = new boolean[n];
+        int min_cost = Integer.MAX_VALUE;
+        int curr_cost = 0;
+        int start =0;
+        int count = 0;
+        int ans = dfs(start,cost,vis,min_cost,curr_cost,count,n);
+        return ans;
+   }
+    public int dfs(int start, int[][] cost, boolean[] vis, int min_cost, int curr_cost, int count, int n){
+        vis[start]=true;
+        count+=1;
+        if(count==n && cost[start][0] > 0){
+            min_cost = Math.min(min_cost,curr_cost+cost[start][0]);
+            vis[start]=false;
+            return min_cost;
+        }
+        for(int i=0;i<n;i++){
+            if(cost[start][i]>0 && !vis[i]){
+                min_cost = dfs(i,cost,vis,min_cost,curr_cost+cost[start][i],count,n);
+            }
+        }
+        vis[start]=false;
+       return min_cost;
+    }
+ }
